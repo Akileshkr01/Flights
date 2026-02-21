@@ -1,4 +1,5 @@
 const {StatusCodes} = require('http-status-codes');
+const { AppError } = require('../utils');
 const { where } = require('sequelize');
 const {Logger} = require('../config');
 
@@ -20,6 +21,9 @@ class CrudRepository{
                     id:  data
                 }
             });
+            if(response === 0){
+               throw new AppError('Not able to find the resource',StatusCodes.NOT_FOUND);
+            } 
             return response;
         
     }
