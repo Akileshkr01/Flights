@@ -2,7 +2,7 @@ const express = require('express');
 
 const {ServerConfig  } = require('./config');
 const apiRoutes = require('./routes');
-
+const { sequelize } = require('./models');
 
 const app = express();
 
@@ -16,3 +16,9 @@ app.listen(ServerConfig.PORT , ()  => {
     console.log(`Successfully started the server on the PORT: ${ServerConfig.PORT}`);
     //Logger.info('Successfully started the server', "root",{});
 });
+
+sequelize.sync() 
+  .then(() => {
+    console.log('All tables recreated!');
+  })
+  .catch(err => console.error('Error creating tables:', err));
